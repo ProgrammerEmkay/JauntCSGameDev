@@ -21,6 +21,7 @@ public class PlayerMovement : MonoBehaviour
     /// Rigbody component to be used with the player character model
     /// </summary>
     Rigidbody m_Rigidbody;
+    AudioSource m_AudioSource;
     /// <summary>
     /// Vextor3 used to determine the direction of the player character
     /// </summary>
@@ -39,6 +40,7 @@ public class PlayerMovement : MonoBehaviour
     {
         m_Animator = GetComponent<Animator>(); //retrieve the animator component for use with player character
         m_Rigidbody = GetComponent<Rigidbody>(); //retrieve the rigbody component for use with the player character
+        m_AudioSource = GetComponent<AudioSource>();
     }
 
     /// <summary>
@@ -58,6 +60,18 @@ public class PlayerMovement : MonoBehaviour
         bool isWalking = hasHorizontalInput || hasVerticalInput; //if there is player movement on either axis the player is walking in game
 
         m_Animator.SetBool("IsWalking", isWalking); //set the isWalking attribute from the playercharacter state machine
+
+        if (isWalking)
+        {
+            if (!m_AudioSource.isPlaying)
+            {
+                m_AudioSource.Play();
+            }
+        }
+        else
+        {
+            m_AudioSource.Stop();
+        }
         #endregion
 
         #region PlayerCharacter Rotation
